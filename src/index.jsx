@@ -15,7 +15,7 @@ class App extends Component {
 					<Header title="WEMOS Air Quality Monitor" />
 					<Content>
 						<Grid>
-							<Cell col={6}><Chart /></Cell>
+							<Cell col={6}><Chart database="temperature" /></Cell>
 							<Cell col={6}>A</Cell>
 						</Grid>
 					</Content>
