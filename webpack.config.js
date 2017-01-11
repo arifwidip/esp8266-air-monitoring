@@ -2,8 +2,10 @@
 var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
+var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
@@ -11,16 +13,17 @@ const PORT = process.env.PORT || "8888";
 // global css
 loaders.push({
 	test: /\.css$/,
-	exclude: /[\/\\]src[\/\\]/,
+	exclude: /[\/\\](src|flexboxgrid)[\/\\]/,
 	loaders: [
 		'style?sourceMap',
 		'css'
 	]
 });
+
 // local scss modules
 loaders.push({
 	test: /\.scss$/,
-	exclude: /[\/\\](node_modules|bower_components|public\/)[\/\\]/,
+	exclude: /[\/\\](node_modules|flexboxgrid|bower_components|public\/)[\/\\]/,
 	loaders: [
 		'style?sourceMap',
 		'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]&sourceMap',
@@ -32,10 +35,19 @@ loaders.push({
 // local css modules
 loaders.push({
 	test: /\.css$/,
-	exclude: /[\/\\](node_modules|bower_components|public\/)[\/\\]/,
+	exclude: /[\/\\](node_modules|flexboxgrid|bower_components|public\/)[\/\\]/,
 	loaders: [
 		'style?sourceMap',
 		'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]&sourceMap'
+	]
+});
+
+loaders.push({
+	test: /\.css$/,
+	include: /flexboxgrid/,
+	loaders: [
+		'style',
+		'css?modules'
 	]
 });
 
@@ -68,6 +80,7 @@ module.exports = {
 		port: PORT,
 		host: HOST
 	},
+	postcss: [autoprefixer],
 	plugins: [
 		new webpack.NoErrorsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),

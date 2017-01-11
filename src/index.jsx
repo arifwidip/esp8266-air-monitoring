@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Layout, Header, Content, Grid, Cell } from 'react-mdl';
-import Chart from './components/chart';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import HeaderSection from './components/header-section';
+import Content from './components/content';
 
 import './index.scss';
-import 'react-mdl/extra/material.css';
-import 'react-mdl/extra/material.js';
+
+injectTapEventPlugin();
 
 class App extends Component {
 	render() {
 		return (
-			<div>
-				<Layout>
-					<Header title="WEMOS Air Quality Monitor" />
-					<Content>
-						<Grid>
-							<Cell col={6}><Chart database="temperature" /></Cell>
-							<Cell col={6}>A</Cell>
-						</Grid>
-					</Content>
-				</Layout>
-			</div>
+			<MuiThemeProvider>
+				<div>
+					<HeaderSection />
+					<Content />
+				</div>
+			</MuiThemeProvider>
 		);
 	}
 }

@@ -9,16 +9,6 @@ class Chart extends Component {
 		this.state = {
 			items: []
 		};
-
-		this.firebaseConfig = {
-			apiKey: 'AIzaSyANx9iqyKSdbG4Uu4CRCrR6gGamXj9GK5s',
-			authDomain: "wemos-arduino.firebaseapp.com",
-			databaseURL: "https://wemos-arduino.firebaseio.com",
-			storageBucket: "wemos-arduino.appspot.com",
-			messagingSenderId: "345464825282"
-		};
-
-		firebase.initializeApp(this.firebaseConfig);
 	}
 
 	componentWillMount() {
