@@ -7,12 +7,28 @@ class Chart extends Component {
 		super();
 
 		this.state = {
-			items: []
+			items: [],
+			initialDataLoaded: false,
 		};
 	}
 
 	componentWillMount() {
 		const ref = firebase.database().ref( this.props.database );
+
+		// Update the chart realtime
+		ref.limitToLast(1).on('child_added', (data) => {
+			if( this.state.initialDataLoaded ) {
+				var itemVal = data.val();
+				this.setState({
+					items: [{
+						x: itemVal.timestamp,
+						y: itemVal.value
+					}, ...this.state.items]
+				});
+			}
+		});
+
+		// Load Initial Data
 		ref.limitToLast(50).once('value', (dataSnapshot) => {
 			let items = [];
 
@@ -26,7 +42,8 @@ class Chart extends Component {
 			});
 
 			this.setState({
-				items: items
+				items: items,
+				initialDataLoaded: true
 			});
 		});
 	}
@@ -37,7 +54,7 @@ class Chart extends Component {
 			    type: 'spline',
 			},
 			title: {
-			    text: 'WeMos Temperature Sensor'
+			    text: this.props.title
 			},
 			xAxis: {
 			    type: 'datetime',
@@ -46,7 +63,7 @@ class Chart extends Component {
 			yAxis:
           {
               title: {
-                  text: 'Temperature'
+                  text: this.props.yLabel
               },
               plotLines: [{
                   value: 0,
@@ -63,7 +80,7 @@ class Chart extends Component {
 			},
 			series: [
 			    {
-			        name: 'Temperature',
+			        name: this.props.yLabel,
 			        data: this.state.items
 			    }
 			]

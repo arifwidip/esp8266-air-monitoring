@@ -9,8 +9,20 @@ export default () => {
 		<div className={style["page-content"]}>
 			<Grid>
 				<Row>
-					<Col lg={6} md={6}><Chart database="temperature" /></Col>
-					<Col lg={6} md={6}><Chart database="temperature" /></Col>
+					<Col lg={6} md={6}>
+						<Chart
+							database="temperature"
+							title="Temperature Sensor"
+							yLabel="Temperature" />
+					</Col>
+
+					<Col lg={6} md={6}>
+						<Chart
+							database="humidity"
+							title="Humidity Sensor"
+							yLabel="Humidity"
+							/>
+					</Col>
 				</Row>
 			</Grid>
 		</div>
