@@ -1,7 +1,11 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-flexbox-grid/lib/';
+import {Tabs, Tab} from 'material-ui/Tabs';
 import firebase from 'firebase';
-import Chart from './chart';
+
+import RealtimeChart from '../page/realtime-chart';
+import LastWeekChart from '../page/lastweek-chart';
+import LastMonthChart from '../page/lastmonth-chart';
+import AllTimeChart from '../page/alltime-chart';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyANx9iqyKSdbG4Uu4CRCrR6gGamXj9GK5s',
@@ -13,18 +17,13 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-import style from '../index.scss';
-console.log(style);
-
 export default () => {
 	return (
-		<div className={style["page-content"]}>
-			<Grid>
-				<Row>
-					<Col lg={6} md={6}><Chart database="temperature" /></Col>
-					<Col lg={6} md={6}><Chart database="temperature" /></Col>
-				</Row>
-			</Grid>
-		</div>
+		<Tabs>
+			<Tab label="Realtime"><RealtimeChart /></Tab>
+			<Tab label="Last Week"><LastWeekChart /></Tab>
+			<Tab label="Last Month"><LastMonthChart /></Tab>
+			<Tab label="All Time"><AllTimeChart /></Tab>
+		</Tabs>
 	);
 }
