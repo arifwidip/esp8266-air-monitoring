@@ -19,12 +19,16 @@ class Chart extends Component {
 		ref.limitToLast(1).on('child_added', (data) => {
 			if( this.state.initialDataLoaded ) {
 				var itemVal = data.val();
-				this.setState({
-					items: [{
+				/*var newItems = [{
 						x: itemVal.timestamp,
 						y: itemVal.value
-					}, ...this.state.items]
-				});
+					}, ...this.state.items];
+
+				this.setState({
+					items: newItems
+				});*/
+				let chart = this.refs.chart.getChart();
+				chart.series[0].addPoint( [itemVal.timestamp, itemVal.value], true, true );
 			}
 		});
 

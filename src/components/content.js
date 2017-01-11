@@ -16,6 +16,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+window.firebase = firebase;
 
 export default () => {
 	return (
