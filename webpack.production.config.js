@@ -2,27 +2,35 @@
 var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 // local css modules
 loaders.push({
 	test: /[\/\\]src[\/\\].*\.css/,
-	exclude: /(node_modules|bower_components|public\/)/,
+	exclude: /(node_modules|flexboxgrid|bower_components|public\/)/,
 	loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
 });
 
 // local scss modules
 loaders.push({
 	test: /[\/\\]src[\/\\].*\.scss/,
-	exclude: /(node_modules|bower_components|public\/)/,
+	exclude: /(node_modules|flexboxgrid|bower_components|public\/)/,
 	loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
 });
 // global css files
 loaders.push({
 	test: /[\/\\](node_modules|global)[\/\\].*\.css$/,
+	exclude: /flexboxgrid/,
 	loader: ExtractTextPlugin.extract('style', 'css')
+});
+
+loaders.push({
+	test: /\.css$/,
+	include: /flexboxgrid/,
+	loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1')
 });
 
 module.exports = {
@@ -40,6 +48,7 @@ module.exports = {
 	module: {
 		loaders
 	},
+	postcss: [autoprefixer],
 	plugins: [
 		new WebpackCleanupPlugin(),
 		new webpack.DefinePlugin({
@@ -61,7 +70,7 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
-			title: 'Webpack App'
+			title: 'WEMOS Air Quality Monitoring'
 		}),
 		new webpack.optimize.DedupePlugin()
 	]

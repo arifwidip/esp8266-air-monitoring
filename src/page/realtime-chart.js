@@ -25,6 +25,23 @@ export default () => {
 							realtime={true}
 							/>
 					</Col>
+
+					<Col lg={12} md={12}>
+						<Chart
+							database="co2"
+							title="Carbon Dioxide"
+							yLabel="Co2 (PPM)"
+							realtime={true}
+							plotlines={[{
+                  value: 351,
+                  width: 2,
+                  color: '#ff0000',
+                  label: {
+                    text: 'Danger'
+                  }
+              }]}
+							/>
+					</Col>
 				</Row>
 			</Grid>
 		</div>

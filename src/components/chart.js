@@ -19,6 +19,7 @@ class Chart extends Component {
 		this.state = {
 			items: [],
 			initialDataLoaded: false,
+			plotlines: []
 		};
 	}
 
@@ -87,11 +88,7 @@ class Chart extends Component {
                   text: this.props.yLabel
               },
               minTickInterval: 0.1,
-              plotLines: [{
-                  value: 0,
-                  width: 1,
-                  color: '#808080'
-              }]
+              plotLines: this.props.plotlines
           }
       ,
 			legend: {

@@ -1,29 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
-import HeaderSection from './components/header-section';
-import Content from './components/content';
-
-import './index.scss';
-
-injectTapEventPlugin();
-
-class App extends Component {
-	render() {
-		return (
-			<MuiThemeProvider>
-				<div>
-					<HeaderSection />
-					<Content />
-				</div>
-			</MuiThemeProvider>
-		);
-	}
-}
+import App from './components/app';
+import RealtimeChart from './page/realtime-chart';
+import LastWeekChart from './page/lastweek-chart';
+import LastMonthChart from './page/lastmonth-chart';
 
 ReactDOM.render(
-	<App />,
+	<Router history={browserHistory}>
+		<Route path="/" component={App}>
+			<IndexRoute component={RealtimeChart} />
+			<Route path="realtime" component={RealtimeChart} />
+			<Route path="lastweek" component={LastWeekChart} />
+			<Route path="lastmonth" component={LastMonthChart} />
+		</Route>
+	</Router>,
 	document.getElementById('app')
-)
+);

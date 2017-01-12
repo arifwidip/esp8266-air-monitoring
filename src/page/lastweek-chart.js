@@ -25,6 +25,15 @@ export default () => {
 							dateRange="lastweek"
 							/>
 					</Col>
+
+					<Col lg={12} md={12}>
+						<Chart
+							database="co2"
+							title="Carbon Dioxide"
+							yLabel="Co2 (PPM)"
+							dateRange="lastweek"
+							/>
+					</Col>
 				</Row>
 			</Grid>
 		</div>
