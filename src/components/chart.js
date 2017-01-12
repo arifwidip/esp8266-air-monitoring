@@ -6,6 +6,12 @@ import { Card, CardText } from 'material-ui/Card';
 
 timestamp.round = true;
 
+ReactHighcharts.Highcharts.setOptions({
+	global: {
+		useUTC: false
+	}
+});
+
 class Chart extends Component {
 	constructor() {
 		super();
@@ -21,11 +27,7 @@ class Chart extends Component {
 
 		dataSnapshot.forEach((item) => {
 			let itemVal = item.val();
-
-			items.push({
-				x: itemVal.timestamp,
-				y: itemVal.value
-			});
+			items.push([itemVal.timestamp, itemVal.value]);
 		});
 
 		this.setState({
