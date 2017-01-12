@@ -13,7 +13,8 @@ export default () => {
 						<Chart
 							database="temperature"
 							title="Temperature Sensor"
-							yLabel="Temperature" />
+							yLabel="Temperature"
+							realtime={true} />
 					</Col>
 
 					<Col lg={6} md={6}>
@@ -21,6 +22,7 @@ export default () => {
 							database="humidity"
 							title="Humidity Sensor"
 							yLabel="Humidity"
+							realtime={true}
 							/>
 					</Col>
 				</Row>

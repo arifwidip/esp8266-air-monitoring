@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import ReactHighcharts from 'react-highcharts';
+import timestamp from 'unix-timestamp';
+
+timestamp.round = true;
 
 class Chart extends Component {
 	constructor() {
@@ -12,44 +15,55 @@ class Chart extends Component {
 		};
 	}
 
-	componentWillMount() {
+	loadInitialData(dataSnapshot) {
+		let items = [];
+
+		dataSnapshot.forEach((item) => {
+			let itemVal = item.val();
+
+			items.push({
+				x: itemVal.timestamp,
+				y: itemVal.value
+			});
+		});
+
+		this.setState({
+			items: items,
+			initialDataLoaded: true
+		});
+	}
+
+	componentDidMount() {
 		const ref = firebase.database().ref( this.props.database );
 
 		// Update the chart realtime
-		ref.limitToLast(1).on('child_added', (data) => {
-			if( this.state.initialDataLoaded ) {
-				var itemVal = data.val();
-				/*var newItems = [{
-						x: itemVal.timestamp,
-						y: itemVal.value
-					}, ...this.state.items];
+		if( this.props.realtime ) {
+			ref.limitToLast(1).on('child_added', (data) => {
+				if( this.state.initialDataLoaded ) {
+					var itemVal = data.val();
+					let chart = this.refs.chart.getChart();
+					chart.series[0].addPoint( [itemVal.timestamp, itemVal.value], true, true );
+				}
+			});
+		}
 
-				this.setState({
-					items: newItems
-				});*/
-				let chart = this.refs.chart.getChart();
-				chart.series[0].addPoint( [itemVal.timestamp, itemVal.value], true, true );
+		// Load Initial Data if dateRange specified
+		if( this.props.dateRange ) {
+			switch (this.props.dateRange) {
+				case 'lastweek':
+					ref.orderByChild('timestamp').startAt(timestamp.now('-1w') * 1000).once('value', this.loadInitialData.bind(this));
+					break;
+
+				case 'lastmonth':
+					ref.orderByChild('timestamp').startAt(timestamp.now('-1M') * 1000).once('value', this.loadInitialData.bind(this));
+					break;
 			}
-		});
+		}
 
-		// Load Initial Data
-		ref.limitToLast(50).once('value', (dataSnapshot) => {
-			let items = [];
-
-			dataSnapshot.forEach((item) => {
-				let itemVal = item.val();
-
-				items.push({
-					x: itemVal.timestamp,
-					y: itemVal.value
-				});
-			});
-
-			this.setState({
-				items: items,
-				initialDataLoaded: true
-			});
-		});
+		// If dateRange not specified, load last 50 data
+		else {
+			ref.limitToLast(50).once('value', this.loadInitialData.bind(this));
+		}
 	}
 
 	render() {
@@ -69,6 +83,7 @@ class Chart extends Component {
               title: {
                   text: this.props.yLabel
               },
+              minTickInterval: 0.1,
               plotLines: [{
                   value: 0,
                   width: 1,

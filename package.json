@@ -21,7 +21,8 @@
     "react-flexbox-grid": "^0.10.2",
     "react-highcharts": "^11.5.0",
     "react-tap-event-plugin": "^2.0.1",
-    "sass-loader": "^4.0.2"
+    "sass-loader": "^4.0.2",
+    "unix-timestamp": "^0.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
