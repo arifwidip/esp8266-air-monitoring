@@ -23,7 +23,6 @@ export default () => {
 			<Tab label="Realtime"><RealtimeChart /></Tab>
 			<Tab label="Last Week"><LastWeekChart /></Tab>
 			<Tab label="Last Month"><LastMonthChart /></Tab>
-			<Tab label="All Time"><AllTimeChart /></Tab>
 		</Tabs>
 	);
 }

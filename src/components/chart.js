@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import ReactHighcharts from 'react-highcharts';
 import timestamp from 'unix-timestamp';
+import { Card, CardText } from 'material-ui/Card';
 
 timestamp.round = true;
 
@@ -106,9 +107,11 @@ class Chart extends Component {
 		};
 
 		return (
-			<div>
-				<ReactHighcharts config={config} ref="chart" />
-			</div>
+			<Card style={{marginBottom: '20px'}}>
+				<CardText>
+					<ReactHighcharts config={config} ref="chart" />
+				</CardText>
+			</Card>
 		);
 	}
 }
